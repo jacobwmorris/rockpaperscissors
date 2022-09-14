@@ -13,6 +13,24 @@ function getComputerChoice() {
     }
 }
 
+function getPlayerChoice() {
+    let choice;
+    let finished = false;
+
+    while (!finished) {
+        choice = prompt("Rock, paper, scissors! What is your choice?").toLowerCase();
+
+        if (choice === "rock" || choice === "paper" || choice === "scissors") {
+            finished = true;
+        }
+        else {
+            console.log("Warning: you must choose rock, paper, or scissors");
+        }
+    }
+
+    return choice;
+}
+
 function playRound(playerSelection, compSelection) {
     let victory = false;
     playerSelection = playerSelection.toLowerCase();
@@ -56,12 +74,11 @@ function playRound(playerSelection, compSelection) {
     }
 }
 
-console.log(playRound("rock", "rock"));
-console.log(playRound("rock", "paper"));
-console.log(playRound("rock", "scissors"));
-console.log(playRound("paper", "rock"));
-console.log(playRound("paper", "paper"));
-console.log(playRound("paper", "scissors"));
-console.log(playRound("scissors", "rock"));
-console.log(playRound("scissors", "paper"));
-console.log(playRound("scissors", "scissors"));
+function game() {
+    let playerWins = 0;
+    let compWins = 0;
+
+    for (let round = 1; round <= 5; ++round) {
+
+    }
+}
