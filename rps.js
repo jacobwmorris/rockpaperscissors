@@ -37,7 +37,8 @@ function playRound(playerSelection, compSelection) {
 
     //Check for a tie first
     if (playerSelection === compSelection) {
-        return `It's a tie! you both chose ${playerSelection}.`;
+        console.log(`It's a tie! you both chose ${playerSelection}.`);
+        return "tie";
     }
 
     //Rock beats scissors, paper beats rock, scissors beats paper
@@ -67,18 +68,46 @@ function playRound(playerSelection, compSelection) {
     }
 
     if (victory) {
-        return `You win! ${playerSelection} beats ${compSelection}.`
+        console.log(`You win! ${playerSelection} beats ${compSelection}.`);
+        return "player";
     }
     else {
-        return `You lose! ${compSelection} beats ${playerSelection}.`
+        console.log(`You lose! ${compSelection} beats ${playerSelection}.`);
+        return "computer";
     }
 }
 
 function game() {
     let playerWins = 0;
     let compWins = 0;
+    const maxRounds = 5;
 
-    for (let round = 1; round <= 5; ++round) {
+    for (let round = 1; round <= maxRounds; ++round) {
+        console.log(`Round ${round} of ${maxRounds}`);
+        let victor = playRound(getPlayerChoice(), getComputerChoice());
 
+        if (victor === "player") {
+            ++playerWins;
+        }
+        if (victor === "computer") {
+            ++compWins;
+        }
+
+        console.log(`Score: Player - ${playerWins}, Computer - ${compWins}`)
     }
+
+    let finalResult;
+    if (playerWins > compWins) {
+        finalResult = "Victory!";
+    }
+    else if (playerWins < compWins) {
+        finalResult = "Defeat.";
+    }
+    else {
+        finalResult = "Tie.";
+    }
+
+    console.log("Final Result: " + finalResult);
 }
+
+game();
