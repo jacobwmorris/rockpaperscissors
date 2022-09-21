@@ -3,8 +3,77 @@
     <head>
         <meta charset="UTF-8">
         <title>Rock Paper Scissors</title>
+        <script src="./rps.js" defer></script>
+        <style>
+
+body {
+    text-align: center;
+}
+
+#roundResult {
+    padding: 5px;
+    margin: 10px;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+#resultHolder {
+    padding: 5px 0px;
+    list-style-type: none;
+    margin: 10px;
+}
+
+.game {
+    background-color: #d0d0d0;
+    padding: 5px;
+    margin: 10px;
+}
+
+.buttonHolder {
+    margin: 10px;
+}
+
+.bgGreen1 {
+    background-color: #56ff40;
+}
+
+.bgGreen2 {
+    background-color: #9cff88;
+}
+
+.bgYellow1 {
+    background-color: #ffff40;
+}
+
+.bgYellow2 {
+    background-color: #ffff88;
+}
+
+.bgRed1 {
+    background-color: #ff2b2b;
+}
+
+.bgRed2 {
+    background-color: #ff8888;
+}
+
+        </style>
     </head>
     <body>
-        <script src="rps.js"></script>
+        <div class="game">
+            <h1>Rock, Paper, Scissors!</h1>
+            <h2>Which do you choose?</h2>
+            <div class="buttonHolder">
+                <button id="rock">Rock</button>
+                <button id="paper">Paper</button>
+                <button id="scissors">Scissors</button>
+            </div>
+        </div>
+        <div id="roundResult" class="bgYellow1"></div>
+        <ul id="resultHolder" class="bgYellow2">
+            <li id="scoreLabel">First to 5 wins. Current score:</li>
+            <li id="playerScore">Player: 0</li>
+            <li id="compScore">Computer: 0</li>
+        </ul>
     </body>
 </html>

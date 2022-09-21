@@ -13,31 +13,12 @@ function getComputerChoice() {
     }
 }
 
-function getPlayerChoice() {
-    let choice;
-    let finished = false;
-
-    while (!finished) {
-        choice = prompt("Rock, paper, scissors! What is your choice?").toLowerCase();
-
-        if (choice === "rock" || choice === "paper" || choice === "scissors") {
-            finished = true;
-        }
-        else {
-            console.log("Warning: you must choose rock, paper, or scissors");
-        }
-    }
-
-    return choice;
-}
-
 function playRound(playerSelection, compSelection) {
     let victory = false;
     playerSelection = playerSelection.toLowerCase();
 
     //Check for a tie first
     if (playerSelection === compSelection) {
-        console.log(`It's a tie! you both chose ${playerSelection}.`);
         return "tie";
     }
 
@@ -68,46 +49,94 @@ function playRound(playerSelection, compSelection) {
     }
 
     if (victory) {
-        console.log(`You win! ${playerSelection} beats ${compSelection}.`);
         return "player";
     }
     else {
-        console.log(`You lose! ${compSelection} beats ${playerSelection}.`);
         return "computer";
     }
 }
 
-function game() {
-    let playerWins = 0;
-    let compWins = 0;
-    const maxRounds = 5;
+let playerScore = 0;
+let compScore = 0;
+let gameFinished = false;
+const scoreToWin = 5;
 
-    for (let round = 1; round <= maxRounds; ++round) {
-        console.log(`Round ${round} of ${maxRounds}`);
-        let victor = playRound(getPlayerChoice(), getComputerChoice());
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
 
-        if (victor === "player") {
-            ++playerWins;
-        }
-        if (victor === "computer") {
-            ++compWins;
-        }
-
-        console.log(`Score: Player - ${playerWins}, Computer - ${compWins}`)
-    }
-
-    let finalResult;
-    if (playerWins > compWins) {
-        finalResult = "Victory!";
-    }
-    else if (playerWins < compWins) {
-        finalResult = "Defeat.";
-    }
-    else {
-        finalResult = "Tie.";
-    }
-
-    console.log("Final Result: " + finalResult);
+function turnRed(element, shade) {
+    element.classList.remove("bgGreen" + shade);
+    element.classList.remove("bgYellow" + shade);
+    element.classList.add("bgRed" + shade);
 }
 
-game();
+function turnYellow(element, shade) {
+    element.classList.remove("bgRed" + shade);
+    element.classList.remove("bgGreen" + shade);
+    element.classList.add("bgYellow" + shade);
+}
+
+function turnGreen(element, shade) {
+    element.classList.remove("bgRed" + shade);
+    element.classList.remove("bgYellow" + shade);
+    element.classList.add("bgGreen" + shade);
+}
+
+function checkForWinner() {
+    if (gameFinished)
+        return;
+    
+    if (playerScore >= scoreToWin) {
+        const resultHolderUl = document.querySelector("#resultHolder");
+        const scoreLabelLi = document.querySelector("#scoreLabel");
+        turnGreen(resultHolderUl, "2");
+        scoreLabelLi.textContent = "VICTORY!";
+        gameFinished = true;
+    }
+    if (compScore >= scoreToWin) {
+        const resultHolderUl = document.querySelector("#resultHolder");
+        const scoreLabelLi = document.querySelector("#scoreLabel");
+        turnRed(resultHolderUl, "2");
+        scoreLabelLi.textContent = "DEFEAT.";
+        gameFinished = true;
+    }
+}
+
+function rpsChoice(event) {
+    if (gameFinished)
+        return;
+
+    const playerChoice = event.target.getAttribute("id");
+    const compChoice = getComputerChoice();
+    if (playerChoice === null)
+        return;
+
+    const winner = playRound(playerChoice, compChoice);
+    const roundResultDiv = document.querySelector("#roundResult");
+
+    if (winner === "player") {
+        roundResultDiv.textContent = `You win! ${playerChoice} beats ${compChoice}.`;
+        turnGreen(roundResultDiv, "1");
+        ++playerScore;
+        const playerScoreLi = document.querySelector("#playerScore");
+        playerScoreLi.textContent = "Player: " + playerScore;
+        checkForWinner();
+    }
+    else if (winner === "computer") {
+        roundResultDiv.textContent = `You lose! ${compChoice} beats ${playerChoice}.`;
+        turnRed(roundResultDiv, "1");
+        ++compScore;
+        const compScoreLi = document.querySelector("#compScore");
+        compScoreLi.textContent = "Computer: " + compScore;
+        checkForWinner();
+    }
+    else {
+        roundResultDiv.textContent = `It's a tie! you both chose ${playerChoice}.`;
+        turnYellow(roundResultDiv, "1");
+    }
+}
+
+rockButton.addEventListener("click", rpsChoice);
+paperButton.addEventListener("click", rpsChoice);
+scissorsButton.addEventListener("click", rpsChoice);
